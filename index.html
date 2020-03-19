@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>5BLOC</title>
+	<script src="vue.min.js"></script>
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-6 bg-gray-100 text-center">
+<div id="app">
+	<h1 class="text-gray-900 font-light mb-6">
+		5 Bloc | Camille Toche | Clermont-Ferrand
+	</h1>
+	<h1 class="text-gray-900 font-medium">
+		Chair person: {{ chairPerson }}
+	</h1>
+	<h1 class="text-gray-900 font-medium">Election results:</h1>
+	<div class="w-1/2 p-2 border-2 border-gray-400 inline-flex flex-col items-center mt-4">
+		<div
+			class="w-full h-8 m-1 p-4 flex items-center"
+			v-for='(gugusse, k) in results'
+			:class='{
+				"bg-gray-300": k % 2 == 0 && winningProposal != k,
+				"text-xl bg-blue-400": winningProposal == k
+			}'
+		>
+			<div>{{ k }}</div>
+			<div class="capitalize ml-12">{{ gugusse.toLowerCase() }}</div>
+		</div>
+	</div>
+</div>
+</body>
+<script src="main.js"></script>
+</html>

@@ -1,5 +1,6 @@
 const Eth = require('ethjs');
-const url = 'https://rinkeby.infura.io/v3/84948fd240eb4034aaa956bc6fb61d40';const eth = new Eth(new Eth.HttpProvider(url));
+const url = 'https://rinkeby.infura.io/v3/84948fd240eb4034aaa956bc6fb61d40';
+const eth = new Eth(new Eth.HttpProvider(url));
 const { hexToAscii } = require('./utils');
 
 const tokenABI = require('./abi');
@@ -21,8 +22,25 @@ const getWinningProposal = async () => {
 	return winningProposal.winningProposal_;
 };
 
+const getProposals = async () => {
+	const proposals = [];
+	let lastProposal = null;
+	let i = 0;
+
+	do {
+		lastProposal = await contract.proposals(i);
+		if (lastProposal.name != '0x') {
+			proposals.push(lastProposal);
+			i++;
+		}
+	} while(lastProposal.name != '0x')
+	
+	return proposals.map((p) => hexToAscii(p.name).replace(/\u0000/g, ''));
+};
+
 module.exports = {
 	getWinnerName,
 	getChairperson,
 	getWinningProposal,
+	getProposals,
 };
